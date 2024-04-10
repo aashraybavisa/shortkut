@@ -11,7 +11,7 @@ interface LoginScreenProps {
 }
 
 const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
-  const [email, setEmail] = useState('ev@gmail.com')
+  const [email, setEmail] = useState('test@gmail.com')
   const [password, setPassword] = useState('123123')
 
   const handleLoginPress = () => {
@@ -34,7 +34,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         <AppButton text={'Login'} onPress={handleLoginPress} />
         <Text style={styles.bottomText}>{'New User?'}</Text>
         <Text style={[styles.bottomText, styles.bottomTextLink]} onPress={onPressSignUpForClient}>
-          {'Sign Up For Client'}
+          {'SignUp'}
         </Text>
         {/* <Text style={[styles.bottomText, styles.bottomTextLink]}>{'Set Up My Business'}</Text> */}
       </View>
