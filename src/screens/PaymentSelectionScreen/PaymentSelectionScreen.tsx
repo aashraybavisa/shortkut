@@ -1,83 +1,123 @@
-import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, SafeAreaView, FlatList, TextInput, TouchableOpacity } from 'react-native';
-import { Color, Screen } from '../../utils'; // Ensure to import Screen from the appropriate location
-import { AppHeader } from '../../components';
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  SafeAreaView,
+  FlatList,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import { Color, Screen } from "../../utils"; // Ensure to import Screen from the appropriate location
+import { AppHeader } from "../../components";
+import { Firestore } from "../../firebase";
 
 interface PaymentSelectionScreenProps {
-    navigation : any,
-    route : any
+  navigation: any;
+  route: any;
 }
 
-const PaymentSelectionScreen: React.FC<PaymentSelectionScreenProps> = ({ navigation, route }) => {
-  const [selectedTime, setSelectedTime] = useState('');
+const PaymentSelectionScreen: React.FC<PaymentSelectionScreenProps> = ({
+  navigation,
+  route,
+}) => {
   const [tipPercentage, setTipPercentage] = useState(0);
-  const [promoCode, setPromoCode] = useState('');
+  const [paymentDetail, setPaymentDetail] = useState(null);
 
-  // Dummy data for tip percentages
   const tipPercentages = [10, 15, 20, 25];
 
-  // Dummy data for other details
-  const details = [
-    { label: 'Price', value: '$' + route.params.selectedService.price },
-    // { label: 'Previously Selected', value: 'Type: ABC, Price: $50' },
-    { label: 'Tip', value: `$${tipPercentage * 0.01 * route.params.selectedService.price }` },
-    { label: 'Taxes', value: '$5' },
-    { label: "Total", value: `$${route.params.selectedService.price + tipPercentage * 0.01 * route.params.selectedService.price  + 5}`, isBold: true}
-  ];
-
-
-  const handleApplyPay = () => {
-    // Logic for applying payment
-    console.log('Applying payment...');
-  
-        // Navigate to PaymentSelectionScreen with the selected date and time
-        navigation.navigate(Screen.AcknowledgementScreen, { });
+  const processPaymentDetails = (tipPercentage: number = 0) => {
+    const price = route.params.selectedService.price;
+    const tip = tipPercentage * 0.01 * price;
+    const taxes = price * 0.12;
+    const total = price + tip + taxes;
+    const details = [
+      { label: "Price", value: `$${price.toFixed(2)}` },
+      { label: "Tip", value: `$${tip.toFixed(2)}` },
+      { label: "Taxes", value: `$${taxes.toFixed(2)}` },
+      { label: "Total", value: `$${total.toFixed(2)}`, isBold: true },
+    ];
+    setTipPercentage(tipPercentage);
+    setPaymentDetail(details);
   };
 
-  const handleBookWithCard = () => {
-    // Logic for booking with card
+  useEffect(() => {
+    processPaymentDetails();
+  }, []);
+  // Dummy data for other details
 
-
-    
-        // Navigate to PaymentSelectionScreen with the selected date and time
-        navigation.navigate(Screen.AcknowledgementScreen, { ...route.params });
-
+  const handleBookWithCard = async () => {
+    console.log(route.params, "route.params");
+    const price = route.params.selectedService.price;
+    const tip = tipPercentage * 0.01 * price;
+    const taxes = price * 0.12;
+    const total = price + tip + taxes;
+    const payload = {
+      services: [route.params.selectedService],
+      payment: {
+        price: price.toFixed(2),
+        tip: tip.toFixed(2),
+        taxes: taxes.toFixed(2),
+        total: total.toFixed(2),
+      },
+      shop: route.params.shop,
+      date: route.params.selectedDate,
+      time: route.params.selectedTime,
+      userId: global.user?.userId,
+    };
+    const transactionId = await Firestore.saveTransaction(payload);
+    navigation.navigate(Screen.AcknowledgementScreen, {
+      ...route.params,
+      transactionId,
+    });
   };
 
   const onPressBack = () => {
-    navigation.goBack()
-  }
+    navigation.goBack();
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-        <AppHeader isBackButton onPressBack={onPressBack} />
+      <AppHeader isBackButton onPressBack={onPressBack} />
       <View style={styles.mainContainer}>
-        {/* <View style={styles.timingContainer}>
-          <Text style={styles.selectedTimeText}>{`Selected Time: ${selectedTime}`}</Text>
-        </View> */}
         <View style={styles.tipContainer}>
           <Text style={styles.label}>Select Tip Percentage:</Text>
           <View style={styles.tipButtonContainer}>
             {tipPercentages.map((item, index) => (
               <TouchableOpacity
                 key={index}
-                style={[styles.tipButton, {borderColor: tipPercentage === item ? Color.themeBlue : Color.blueShadow}]}
-                onPress={() => setTipPercentage(item)}
+                style={[
+                  styles.tipButton,
+                  {
+                    borderColor:
+                      tipPercentage === item
+                        ? Color.themeBlue
+                        : Color.blueShadow,
+                  },
+                ]}
+                onPress={() => processPaymentDetails(item)}
               >
                 <Text style={styles.tipButtonText}>{`${item}%`}</Text>
               </TouchableOpacity>
-            ))} 
+            ))}
           </View>
         </View>
         <View style={styles.lineSeparator} />
-        <View style={styles.detailsContainer}>
-          {details.map((detail, index) => (
-            <View key={index} style={styles.detailItem}>
-              <Text style={[styles.label, detail.isBold && styles.boldText]}>{detail.label}:</Text>
-              <Text style={[styles.value, detail.isBold && styles.boldText]}>{detail.value}</Text>
-            </View>
-          ))}
-        </View>
+        {!!paymentDetail && (
+          <View style={styles.detailsContainer}>
+            {paymentDetail.map((detail, index) => (
+              <View key={index} style={styles.detailItem}>
+                <Text style={[styles.label, detail.isBold && styles.boldText]}>
+                  {detail.label}:
+                </Text>
+                <Text style={[styles.value, detail.isBold && styles.boldText]}>
+                  {detail.value}
+                </Text>
+              </View>
+            ))}
+          </View>
+        )}
         {/* <View style={styles.promoContainer}>
           <TextInput
             style={styles.promoInput}
@@ -86,11 +126,11 @@ const PaymentSelectionScreen: React.FC<PaymentSelectionScreenProps> = ({ navigat
             onChangeText={(text) => setPromoCode(text)}
           />
         </View> */}
-        {/* <TouchableOpacity style={styles.applyPayButton} onPress={handleApplyPay}>
-          <Text style={styles.applyPayText}>Apply Pay</Text>
-        </TouchableOpacity> */}
         <View style={styles.lineSeparator} />
-        <TouchableOpacity style={styles.bookWithCardButton} onPress={handleBookWithCard}>
+        <TouchableOpacity
+          style={styles.bookWithCardButton}
+          onPress={handleBookWithCard}
+        >
           <Text style={styles.bookWithCardText}>Book With Card</Text>
         </TouchableOpacity>
       </View>
@@ -111,25 +151,25 @@ const styles = StyleSheet.create({
   },
   selectedTimeText: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   tipContainer: {
     marginBottom: 20,
   },
   tipButtonContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-evenly'
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-evenly",
   },
   tipButton: {
     backgroundColor: Color.blueShadow,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    alignItems:'center',
+    alignItems: "center",
     borderRadius: 10,
     marginVertical: 5,
     marginRight: 10,
-    width: '45%', // Adjusted width for the 3x2 grid
+    width: "45%", // Adjusted width for the 3x2 grid
     borderWidth: 1,
   },
   tipButtonText: {
@@ -137,60 +177,60 @@ const styles = StyleSheet.create({
   },
   lineSeparator: {
     borderBottomWidth: 1,
-    borderBottomColor: '#DDDDDD',
+    borderBottomColor: "#DDDDDD",
     marginVertical: 20,
   },
   detailsContainer: {
     marginBottom: 20,
   },
   detailItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 10,
   },
   label: {
     fontSize: 16,
   },
   boldText: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   value: {
     fontSize: 16,
-    textAlign: 'right',
+    textAlign: "right",
   },
   promoContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 20,
   },
   promoInput: {
     borderWidth: 1,
-    borderColor: '#DDDDDD',
+    borderColor: "#DDDDDD",
     borderRadius: 10,
     padding: 10,
-    width: '100%',
+    width: "100%",
   },
   applyPayButton: {
-    backgroundColor: 'black',
+    backgroundColor: "black",
     borderRadius: 10,
     padding: 15,
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 20,
   },
   applyPayText: {
-    color: 'white',
+    color: "white",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   bookWithCardButton: {
     backgroundColor: Color.themeBlue,
     borderRadius: 10,
     padding: 15,
-    alignItems: 'center',
+    alignItems: "center",
   },
   bookWithCardText: {
-    color: 'white',
+    color: "white",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 
