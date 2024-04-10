@@ -4,6 +4,7 @@ import Route from "./src/navigation/Route";
 import { Color, Images, Responsive, Storage } from "./src/utils";
 import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native";
 
+
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLogIn, setIsLogIn] = useState(false);
