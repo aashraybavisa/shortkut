@@ -13,7 +13,7 @@ interface LoginScreenProps {
 const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const [email, setEmail] = useState('test@gmail.com')
   const [password, setPassword] = useState('123123')
-
+ 
   const handleLoginPress = () => {
     Auth?.signIn({email, password, navigation})
   }
