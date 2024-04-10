@@ -9,7 +9,7 @@ import { Images, Screen } from '../../utils'
 interface RegistrationScreenProps {
   navigation: NavigationProp<any, any>;
 }
-
+ 
 const RegistrationScreen: React.FC<RegistrationScreenProps> = ({ navigation }) => {
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
