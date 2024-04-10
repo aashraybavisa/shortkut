@@ -117,7 +117,7 @@ const CalenderScreen: React.FC<CalenderScreenProps> = (props) => {
 
   // Functions
   const getTimeSlots = (serviceDuration = 35) => {
-    const Time_Slot_Split_Duration = 15; // in minutes
+    const Time_Slot_Split_Duration = 30; // in minutes
     const currentDate = moment().format("YYYY-MM-DD");
     const chosenDate = moment(selectedDate).format("YYYY-MM-DD");
     const isCurrentDateSelected = moment(chosenDate).isSame(currentDate, "day");
@@ -164,6 +164,7 @@ const CalenderScreen: React.FC<CalenderScreenProps> = (props) => {
       const endTime = currentTime
         .add(Time_Slot_Split_Duration, "minutes")
         .format("hh:mm A");
+        
       slots.push({ startTime, endTime });
 
       // currentTime.add(Time_Slot_Split_Duration, "minutes");

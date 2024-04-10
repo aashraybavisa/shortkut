@@ -116,11 +116,11 @@ const BusinessProfileScreen: React.FC<BusinessProfileScreenProps> = (props) => {
         </View>
         <View style={styles.titleView}>
           <Text style={styles.titleText}>{businessName}</Text>
-          <AppButton
+          {/* <AppButton
             text={"Edit"}
             onPress={onPressEdit}
             style={styles.editTouch}
-          />
+          /> */}
         </View>
       </View>
     );
