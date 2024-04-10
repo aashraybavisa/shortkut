@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: Color.themeBlue,
     borderRadius: 10,
-    paddingVertical: Responsive.scale(12),
-    paddingHorizontal: Responsive.scale(24),
+    paddingVertical: Responsive.scale(10),
+    paddingHorizontal: Responsive.scale(20),
     marginVertical: Responsive.scale(10),
     alignItems: "center",
     justifyContent: "center",
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   buttonText: {
-    fontSize: Responsive.scale(16),
+    fontSize: Responsive.font(5),
     color: Color.white,
     fontWeight: "600",
   },

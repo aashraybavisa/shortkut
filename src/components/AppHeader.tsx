@@ -1,13 +1,25 @@
-import { Image, StyleSheet, Text, TouchableOpacity, TouchableOpacityProps, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  View,
+} from "react-native";
 import React from "react";
 import { Color, Images, Responsive } from "../utils";
 
 interface AppHeaderProps {
   isBackButton?: boolean;
   onPressBack?: TouchableOpacityProps["onPress"];
+  title?: string;
 }
 
-const AppHeader: React.FC<AppHeaderProps> = ({ isBackButton, onPressBack }) => {
+const AppHeader: React.FC<AppHeaderProps> = ({
+  isBackButton,
+  onPressBack,
+  title,
+}) => {
   const renderBackButton = () => {
     return (
       <TouchableOpacity style={styles.backTouch} onPress={onPressBack}>
@@ -23,7 +35,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({ isBackButton, onPressBack }) => {
   return (
     <View style={styles.mainContainer}>
       {isBackButton && renderBackButton()}
-      <Text style={styles.text}>{"ShortKut"}</Text>
+      <Text style={styles.text}>{title}</Text>
       {isBackButton && <View style={styles.backTouch} />}
     </View>
   );
@@ -34,6 +46,8 @@ export default AppHeader;
 // Default Props
 AppHeader.defaultProps = {
   isBackButton: false,
+  onPressBack: () => {},
+  title: "ShortKut",
 };
 
 const styles = StyleSheet.create({
@@ -42,13 +56,13 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: Color.white,
+    backgroundColor: Color.themeBlue,
     flexDirection: "row",
   },
   text: {
     fontSize: 20,
     fontWeight: "bold",
-    color: Color.themeBlue,
+    color: Color.white,
     flex: 1,
     textAlign: "center",
   },
@@ -61,6 +75,6 @@ const styles = StyleSheet.create({
   backImg: {
     width: "100%",
     height: "100%",
-    tintColor: Color.themeBlue,
+    tintColor: Color.white,
   },
 });
