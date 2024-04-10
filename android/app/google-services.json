@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "828962721144",
+    "project_id": "shortcut-20e8c",
+    "storage_bucket": "shortcut-20e8c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:828962721144:android:c16adb3caa7cfe8511cc8d",
+        "android_client_info": {
+          "package_name": "com.catchsolutions.shortcut"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "828962721144-tr52iro8l2md5jhinmbl5f9psapp337f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3y6x3t6rfjsNfbcrhpuT45O7gP8Gw7_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "828962721144-tr52iro8l2md5jhinmbl5f9psapp337f.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "828962721144-e5oubekj7buh959c2qobi5sh6j1f2tv0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.catchsolutions.shortcut"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:828962721144:android:761df38c615a68b311cc8d",
+        "android_client_info": {
+          "package_name": "com.shortkut"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "828962721144-tr52iro8l2md5jhinmbl5f9psapp337f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3y6x3t6rfjsNfbcrhpuT45O7gP8Gw7_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "828962721144-tr52iro8l2md5jhinmbl5f9psapp337f.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "828962721144-e5oubekj7buh959c2qobi5sh6j1f2tv0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.catchsolutions.shortcut"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
