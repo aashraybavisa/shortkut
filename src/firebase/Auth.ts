@@ -22,17 +22,17 @@ const signUp = (reqData: any) => {
         uid: auth()?.currentUser?.uid,
         isMerchant,
       };
-      console.log(firestoreObj, "firestoreObj");
-      await Firestore.createUser(firestoreObj);
-
-      // Firestore User Data Fetch
-      const userData = await Firestore.getUser(firestoreObj?.uid);
-
-      // Store User
-      Storage.setUserData({ ...userData, authData: auth()?.currentUser });
-
-      // Stack Change
-      navigation.replace(isMerchant ? Screen.BusinessStack : Screen.MainTab);
+      // console.log(firestoreObj, "firestoreObj");
+      Firestore.createUser(firestoreObj).then(async (data) => {
+        // Firestore User Data Fetch
+        const userData = await Firestore.getUser(firestoreObj?.uid);
+        // console.log(data,'data')
+        // Store User
+        Storage.setUserData(userData).then(() =>
+          // Stack Change
+          navigation.replace(isMerchant ? Screen.BusinessStack : Screen.MainTab)
+        );
+      });
     })
     .catch((error) => {
       if (error.code === "auth/email-already-in-use") {
@@ -43,6 +43,7 @@ const signUp = (reqData: any) => {
 
       if (error.code === "auth/invalid-email") {
         console.log("That email address is invalid!");
+        Utility.showToast("That email address is invalid!")
       }
 
       console.error(error);
@@ -75,19 +76,22 @@ const signIn = async (reqData: any) => {
     .catch((error) => {
       if (error.code === "auth/email-already-in-use") {
         console.log(Constants.Auth.emailAlreadyInUse);
+        Utility.showToast(Constants.Auth.emailAlreadyInUse);
       }
 
       if (error.code === "auth/invalid-email") {
         console.log("That email address is invalid!");
+        Utility.showToast("That email address is invalid!")
       }
 
       if (error.code === "auth/wrong-password") {
         // sendPasswordResetEmail(email)
-        Alert.alert("Wrong Password");
+        Utility.showToast("The password is invalid or the user does not have a password.")
       }
 
       if (error.code === "auth/user-not-found") {
         console.log("User not found!");
+        Utility.showToast("User not found!")
       }
       console.error(error);
     });

@@ -33,7 +33,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = (props) => {
     );
   };
 
-  const { displayName, email } = global?.user;
+  const displayName = global.user?.displayName || "";
+  const email = global.user?.email || "";
 
   return (
     <AppContainer>

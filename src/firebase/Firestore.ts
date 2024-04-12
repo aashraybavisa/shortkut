@@ -2,33 +2,43 @@ import firestore from "@react-native-firebase/firestore";
 import { getMerchantTemplate } from "./Template";
 
 const createUser = (reqData: any) => {
-  const { uid, isMerchant } = reqData;
-  let payload = null;
+  return new Promise((resolve, reject) => {
+    const { uid, isMerchant } = reqData;
+    let payload = null;
 
-  if (isMerchant) {
-    console.log(reqData, "reqData");
-    payload = getMerchantTemplate(reqData);
-    console.log(JSON.stringify(payload), "payload");
-    firestore()
-      .collection("users")
-      .doc(uid)
-      .set(payload)
-      .then(() => {
-        console.log("User added!");
-        global.user = payload;
-      })
-      .catch((e) => console.log(e, "catch - Firestore.createUser"));
-  } else {
-    payload = reqData;
-    firestore()
-      .collection("users")
-      .doc(uid)
-      .set(payload)
-      .then(() => {
-        console.log("User added!");
-      })
-      .catch((e) => console.log(e, "catch - Firestore.createUser"));
-  }
+    if (isMerchant) {
+      console.log(reqData, "reqData");
+      payload = getMerchantTemplate(reqData);
+      console.log(JSON.stringify(payload), "payload");
+      firestore()
+        .collection("users")
+        .doc(uid)
+        .set(payload)
+        .then((doc) => {
+          console.log("User added!");
+          // global.user = payload;
+          resolve(doc);
+        })
+        .catch((e) => {
+          console.log(e, "catch - Firestore.createUser");
+          reject(e);
+        });
+    } else {
+      payload = reqData;
+      firestore()
+        .collection("users")
+        .doc(uid)
+        .set(payload)
+        .then((doc) => {
+          console.log("User added!");
+          resolve(doc);
+        })
+        .catch((e) => {
+          console.log(e, "catch - Firestore.createUser");
+          reject(e);
+        });
+    }
+  });
 };
 
 const getUser = (uid: string) => {
