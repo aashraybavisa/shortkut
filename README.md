@@ -1,14 +1,8 @@
 # shortkut
-INFO6134 Capstone Project : shortKut 
+My start-up app which is yet to reach to the market.
 
-## Group F (Cross-Section) ##
-
-## Group Members ##
-    - Aashray Bavisa
-    - Yaksh Jethva 
-    - Vinay Soni
-
-### App name: shortKut ###
+### Pain point ###
+Waiting for an excessive amount of time for a haircut (especially for men), even when you’ve been a regular customer at the same place for years. 
 
 ### App description ###
 There is currently no platform to bridge the gap between a hair stylist and a customer. If a hair salon cannot be found on an online platform for appointment booking, managing the timing of both salons and customers can be very time-consuming. That is why this application was created to give both parties a platform and serve as a mediator. Customers can schedule an appointment with a stylist for hair treatment, nails, or other cosmetic needs. 
@@ -27,3 +21,8 @@ There is currently no platform to bridge the gap between a hair stylist and a cu
     - Allowing user to view their past orders and current orders		
     - Allowing user to set reminders about their upcoming appointments		
     - Allowing user to review after having service
+
+## Group Members ##
+    - Aashray Bavisa
+    - Yaksh Jethva 
+    - Vinay Soni
