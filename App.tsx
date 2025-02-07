@@ -1,50 +1,59 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+// import { SafeAreaProvider } from "react-native-safe-area-context";
 import Route from "./src/navigation/Route";
 import { Color, Images, Responsive, Storage } from "./src/utils";
 import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native";
 
-
 const App = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLogIn, setIsLogIn] = useState(false);
-
-  useEffect(() => {
-    restoreSession();
-  }, []);
-
-  const restoreSession = async () => {
-    const userData = await Storage.getUserData();
-    if (userData) {
-      console.log(userData, "userData");
-      setIsLogIn(true);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 3000);
-    } else {
-      setIsLoading(false);
-    }
-  };
-
   return (
-    <SafeAreaProvider>
-      {isLoading ? (
-        <View style={styles.container}>
-          <View style={styles.logoView}>
-            <Image
-              source={Images.logo}
-              style={styles.logoImg}
-              resizeMode={"contain"}
-            />
-          </View>
-          <ActivityIndicator size={"large"} color={Color.themeOrange} />
-        </View>
-      ) : (
-        <Route isLogIn={isLogIn} />
-      )}
-    </SafeAreaProvider>
+    <View style={styles.container}>
+      <Text>App</Text>
+    </View>
   );
 };
+
+// export default App;
+
+// const App = () => {
+//   const [isLoading, setIsLoading] = useState(true);
+//   const [isLogIn, setIsLogIn] = useState(false);
+
+//   useEffect(() => {
+//     restoreSession();
+//   }, []);
+
+//   const restoreSession = async () => {
+//     const userData = await Storage.getUserData();
+//     if (userData) {
+//       console.log(userData, "userData");
+//       setIsLogIn(true);
+//       setTimeout(() => {
+//         setIsLoading(false);
+//       }, 3000);
+//     } else {
+//       setIsLoading(false);
+//     }
+//   };
+
+//   return (
+//     <SafeAreaProvider>
+//       {isLoading ? (
+//         <View style={styles.container}>
+//           <View style={styles.logoView}>
+//             <Image
+//               source={Images.logo}
+//               style={styles.logoImg}
+//               resizeMode={"contain"}
+//             />
+//           </View>
+//           <ActivityIndicator size={"large"} color={Color.themeOrange} />
+//         </View>
+//       ) : (
+//         <Route isLogIn={isLogIn} />
+//       )}
+//     </SafeAreaProvider>
+//   );
+// };
 
 export default App;
 
@@ -52,7 +61,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   titleText: {
     fontSize: Responsive.font(7),
